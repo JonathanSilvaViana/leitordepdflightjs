@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>html2pdf that doesn't suck</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Html2pdf that doesn't suck">
+	<meta name="author" content="Allan Ebdrup">
+	<link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+	<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="manifest" href="/manifest.json">
+	<meta name="msapplication-TileColor" content="#ffffff">
+	<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+	<meta name="theme-color" content="#ffffff">
+	<!-- Le styles -->
+	<link href="/css/bootstrap.min.css" rel="stylesheet">
+	<style type="text/css">
+		body {
+			padding-top: 20px;
+			padding-bottom: 40px;
+			font-size: 16px;
+			font-weight:200;
+		}
+
+		h2 {
+			color: #4ba13f !important;
+			font-size: 24px;
+			font-weight: 500;
+		}
+
+		#optionsButton {
+			margin-right: 37px;
+			margin-left: -110px;
+			margin-top: -25px;
+			float: right;
+		}
+
+		#pdfInput {
+			margin-bottom: 8px;
+		}
+
+		.options {
+			-webkit-transform: scale(0.6);
+			-moz-transform: scale(0.6);
+			-ms-transform: scale(0.6);
+			-o-transform: scale(0.6);
+			transform: scale(0.6);
+		}
+
+		.options .btn-group:first-child {
+			margin-right: 19px;
+		}
+
+		.options .btn-group:last-child {
+			margin-left: 19px;
+		}
+
+		.container-narrow {
+			margin: 0 auto;
+			max-width: 700px;
+		}
+
+		.container-narrow > hr {
+			margin: 30px 0;
+		}
+
+		/* Main marketing message and sign up button */
+		.jumbotron {
+			margin: 60px 0;
+			text-align: center;
+		}
+
+		.jumbotron h1 {
+			line-height: 1;
+			padding-bottom: 40px;
+			color: #555;
+		}
+
+		.jumbotron .input, .center {
+			text-align: center;
+		}
+
+		.jumbotron .lead {
+			margin-top: 21px;
+		}
+
+		@media (min-width: 500px) {
+			.jumbotron h1 {
+				font-size: 50px;
+			}
+
+			#pdfForm {
+				-webkit-transform: scale(1.2);
+				-moz-transform: scale(1.2);
+				-ms-transform: scale(1.2);
+				-o-transform: scale(1.2);
+				transform: scale(1.2);
+			}
+		}
+
+		@media (min-width: 700px) {
+			.jumbotron h1 {
+				font-size: 72px;
+			}
+
+			#pdfForm {
+				-webkit-transform: scale(1.5);
+				-moz-transform: scale(1.5);
+				-ms-transform: scale(1.5);
+				-o-transform: scale(1.5);
+				transform: scale(1.5);
+			}
+		}
+
+		.contents {
+			margin: 0 30px;
+		}
+
+		.fb-like {
+			width: 52px !important;
+			margin: 0 26px 0 0;
+			padding: 0;
+			position: relative;
+			display: inline-block;
+			top: -3px;
+		}
+	</style>
+	<link href="/css/bootstrap-responsive.css" rel="stylesheet">
+
+	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+	<!--[if lt IE 9]>
+	<script src="/js/html5shiv.min.js"></script>
+	<![endif]-->
+
+</head>
+
+<body>
+<div class="container-narrow">
+
+	<div class="masthead">
+		<h3 class="muted">Converter páginas HTML para pdf pela URL</h3>
+	</div>
+
+	<hr>
+
+	<div class="jumbotron">
+		<h1 style="text-align:center;">Converta uma página HTML em PDF</h1>
+
+		
+		<iframe id="downloadFrame" style="display:none"></iframe>
+		<form id="pdfForm" class="form-inline" method="GET" action="/">
+			<div id="pdfInput" class="input-prepend input-append">
+				<span class="add-on">Endereço</span>
+				<input id="url" name="url" type="text" class="input-large input" placeholder="URL"
+				       value="www.html2pdf.it">
+				<button type="submit" class="btn" id="getPdfButton">Gerar PDF</button>
+			</div>
+			<div id="options" class="options" style="display:none">
+				<div class="btn-group" data-toggle-name="format" data-toggle="buttons-radio">
+					<button type="button" disabled class="btn">format</button>
+					<button type="button" value="A3" class="btn" data-toggle="button">A3</button>
+					<button type="button" value="A4" class="btn" data-toggle="button">A4</button>
+					<button type="button" value="A5" class="btn" data-toggle="button">A5</button>
+					<button type="button" value="Legal" class="btn" data-toggle="button">Legal</button>
+					<button type="button" value="Letter" class="btn" data-toggle="button">Letra</button>
+					<button type="button" value="Tabloid" class="btn" data-toggle="button">Tabloíde</button>
+				</div>
+				<div class="btn-group" data-toggle-name="orientation" data-toggle="buttons-radio">
+					<button type="button" disabled class="btn">orientation</button>
+					<button type="button" value="portrait" class="btn" data-toggle="button">Retrato</button>
+					<button type="button" value="landscape" class="btn" data-toggle="button">Paisagem</button>
+				</div>
+			</div>
+			<div id="options2" class="options" style="display:none">
+				<div class="btn-group" data-toggle-name="margin" data-toggle="buttons-radio">
+					<button type="button" disabled class="btn">Margens</button>
+					<button type="button" value="0cm" class="btn" data-toggle="button">0cm</button>
+					<button type="button" value="1cm" class="btn" data-toggle="button">1cm</button>
+					<button type="button" value="15mm" class="btn" data-toggle="button">15mm</button>
+				</div>
+				<div class="btn-group" data-toggle-name="download" data-toggle="buttons-radio">
+					<button type="button" disabled class="btn">Abrir</button>
+					<button type="button" value="false" class="btn" data-toggle="button">Mostrar via web</button>
+					<button type="button" value="true" class="btn" data-toggle="button">Download do arquivo</button>
+				</div>
+			</div>
+			<input id="doDownload" type="hidden" name="download" value="false"/>
+			<input type="hidden" name="format" value="A4"/>
+			<input type="hidden" name="downloadToken" id="downloadToken"/>
+			<input type="hidden" name="orientation" value="portrait"/>
+			<input type="hidden" name="margin" value="1cm"/>
+		</form>
+		<button id="optionsButton" type="button" class="hidden btn btn-link">Opções de conversão</button>
+		
+
+	</div>
+
+	<hr>
+
+</div>
+<!-- /container -->
+
+<div class="contents">
+	
+	
+	
+
+	<footer class="footer">
+		<p></p>
+	</footer>
+</div>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="/js/spin.min.js"></script>
+<script type="text/javascript" src="/js/spinOnDownload.js"></script>
+<script type="text/javascript">
+	var html2pdf = {
+		header: {
+			height: "1cm",
+			contents: '<div class="center">page {{pageNumber}} of {{totalPages}}</div>'
+		},
+		footer: {
+			height: "1cm",
+			contents: '<div class="center">page {{pageNumber}} of {{totalPages}}</div>'
+		}
+	};
+	jQuery && jQuery(function ($) {
+		$("#url").val(document.location.href.replace("http://", "").replace("https://", "").replace(/\/$/, ""));
+		$("#url").select();
+		$('div.btn-group').each(function () {
+			var group = $(this);
+			var form = group.parents('form').eq(0);
+			var name = group.attr('data-toggle-name');
+			var hidden = $('input[name="' + name + '"]', form);
+			$('button', group).each(function () {
+				var button = $(this);
+				button.on('click', function () {
+					hidden.val($(this).val());
+					$('button', group).each(function () {
+						var button = $(this);
+						if (button.val() === hidden.val()) {
+							button.addClass('active');
+						} else {
+							button.removeClass('active');
+						}
+					});
+				});
+				if (button.val() === hidden.val()) {
+					button.addClass('active');
+				}
+			});
+		});
+		$('#optionsButton').on("click", function () {
+			$("#optionsButton").hide(200, function () {
+				$('#options').show(200);
+				$('#options2').show(200);
+			});
+
+		});
+		$('#optionsButton').removeClass("hidden");
+	});
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-11089671-7']);
+	_gaq.push(['_setDomainName', 'html2pdf.it']);
+	_gaq.push(['_trackPageview']);
+	if (document.location.href.indexOf("html2pdf.it") !== -1) {
+		(function () {
+			var ga = document.createElement('script');
+			ga.type = 'text/javascript';
+			ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0];
+			s.parentNode.insertBefore(ga, s);
+		})();
+	}
+</script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+.menu-common{
+    /*background: transparent;*/
+}
+
+.top-header{
+    background: #62c9e7;
+}
+
+.footer-nocolor{
+    background: none;
+}
+
+.titulo{
+    color: #fff;
+    font-weight: bolder;
+}
+
+.lerLivro{
+    border-radius: 0;
+}
